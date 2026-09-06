@@ -1486,6 +1486,64 @@
             }
         }
 
+
+        /* ===== DELIVERY ORDER - BANK FORMAT ===== */
+        .do-preview.do-bank-preview { padding: 0; border: none; background: transparent; box-shadow: none; max-width: 210mm; font-family: Arial, Helvetica, sans-serif; color:#111; }
+        .do-sheet { width:100%; background:#fff; border:2px solid #111; font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:1.28; color:#111; }
+        .do-sheet * { box-sizing:border-box; }
+        .do-sheet .do-row { display:grid; grid-template-columns:1fr 1fr; }
+        .do-sheet .do-cell { border-right:1px solid #111; }
+        .do-sheet .do-row > :last-child { border-right:none; }
+        .do-sheet .do-band { border-bottom:1px solid #111; text-align:center; font-weight:700; padding:3px 6px; letter-spacing:.2px; }
+        .do-sheet .do-main-head { min-height:86px; display:flex; align-items:flex-start; justify-content:space-between; padding:8px 10px; border-bottom:1px solid #111; }
+        .do-sheet .do-logo-wrap { min-height:58px; display:flex; align-items:center; }
+        .do-sheet .do-logo-text { font-size:27px; font-weight:800; font-style:italic; letter-spacing:-1px; line-height:.8; }
+        .do-sheet .do-logo-text small { display:block; font-size:18px; margin-left:68px; letter-spacing:1px; }
+        .do-sheet .do-bank-name { font-size:12px; font-weight:700; }
+        .do-sheet .do-title-band { border-bottom:1px solid #111; text-align:center; font-size:13px; font-weight:700; padding:4px 6px; }
+        .do-sheet .do-section-head { text-align:center; font-weight:700; border-bottom:1px solid #111; padding:3px 6px; }
+        .do-sheet .do-dealer-box, .do-sheet .do-reference-box { min-height:260px; padding:10px 12px; }
+        .do-sheet .do-reference-top { border-bottom:1px solid #111; display:grid; grid-template-columns:1fr auto; font-weight:700; padding:4px 6px; margin:-10px -12px 8px; }
+        .do-sheet .do-reference-top > div:first-child { border-right:1px solid #111; padding-right:8px; margin-right:8px; }
+        .do-sheet .do-label-line { margin-bottom:10px; font-weight:700; }
+        .do-sheet .do-address { margin-top:14px; font-weight:700; line-height:1.55; }
+        .do-sheet .do-message { margin-top:30px; line-height:1.6; }
+        .do-sheet .do-message .customer-block { margin-top:20px; font-weight:700; }
+        .do-sheet .do-message .customer-block span { display:block; }
+        .do-sheet .do-hypo { margin-top:18px; font-weight:700; text-align:center; line-height:1.45; }
+        .do-sheet .do-vehicle-title { border-top:1px solid #111; border-bottom:1px solid #111; text-align:center; font-weight:700; padding:3px 6px; }
+        .do-sheet .do-vehicle-table { width:100%; border-collapse:collapse; table-layout:fixed; }
+        .do-sheet .do-vehicle-table td { width:50%; border-right:1px solid #111; border-bottom:1px solid #111; padding:3px 7px; vertical-align:top; }
+        .do-sheet .do-vehicle-table tr td:last-child { border-right:none; }
+        .do-sheet .do-bottom-row { display:grid; grid-template-columns:1fr 1fr; }
+        .do-sheet .do-left-bottom { border-right:1px solid #111; }
+        .do-sheet .do-special-box { border-bottom:1px solid #111; }
+        .do-sheet .do-special-list, .do-sheet .do-furnish-list { margin:5px 8px; padding-left:0; list-style:none; }
+        .do-sheet .do-special-list li, .do-sheet .do-furnish-list li { margin:2px 0; line-height:1.32; }
+        .do-sheet .do-special-list li::before, .do-sheet .do-furnish-list li::before { content:none; }
+        .do-sheet .do-special-list li { font-weight:600; }
+        .do-sheet .do-credit { padding:7px 8px 8px; min-height:88px; }
+        .do-sheet .do-credit .credit-values { margin-top:8px; font-weight:700; line-height:1.5; }
+        .do-sheet .do-furnish-box { min-height:130px; padding-bottom:6px; border-bottom:1px solid #111; }
+        .do-sheet .do-furnish-title { padding:7px 8px 0; font-weight:700; }
+        .do-sheet .do-payment-title { text-align:center; font-weight:700; border-bottom:1px solid #111; padding:3px 6px; }
+        .do-sheet .do-payment-table { width:100%; border-collapse:collapse; table-layout:fixed; }
+        .do-sheet .do-payment-table td { border-right:1px solid #111; border-bottom:1px solid #111; padding:3px 7px; }
+        .do-sheet .do-payment-table td:first-child { width:68%; }
+        .do-sheet .do-payment-table td:last-child { border-right:none; width:32%; text-align:right; font-weight:700; }
+        .do-sheet .do-customer-ack { min-height:115px; border-bottom:1px solid #111; }
+        .do-sheet .do-ack-title { text-align:center; font-weight:700; border-bottom:1px solid #111; padding:3px; }
+        .do-sheet .do-borrower-sign { text-align:center; padding-top:45px; font-weight:700; }
+        .do-sheet .do-sign-box { min-height:205px; padding:8px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center; }
+        .do-sheet .do-stamp { max-height:110px; max-width:85%; object-fit:contain; margin:auto 0 2px; }
+        .do-sheet .do-sign-name { font-weight:700; margin-top:2px; }
+        .do-sheet .do-regd { border-top:1px solid #111; padding:4px 8px; font-size:10px; font-weight:700; }
+        @media (max-width:820px) {
+          .do-sheet .do-row, .do-sheet .do-bottom-row { grid-template-columns:1fr; }
+          .do-sheet .do-cell, .do-sheet .do-left-bottom { border-right:none; border-bottom:1px solid #111; }
+          .do-sheet .do-dealer-box, .do-sheet .do-reference-box { min-height:auto; }
+        }
+
         @media print {
             body,
             .dashboard,
@@ -2244,7 +2302,9 @@ Management</textarea></div>
         let users = [];
         let dealerData = {};
         let currentUser = null;
-        let stampDataURL = null;
+        // Default authorized stamp automatically loaded from stamp.png in the same repository.
+        const DEFAULT_STAMP_URL = 'stamp.png';
+        let stampDataURL = DEFAULT_STAMP_URL;
         let sheetsInitialized = false;
 
         // ================================================================
@@ -2921,10 +2981,11 @@ Management</textarea></div>
 
             if (currentUser.role === 'admin') { navigateTo('dashboardPage'); } else { navigateTo('gstPage'); }
 
+            // Auto-load stamp.png from the same GitHub/repository folder.
+            // A user-uploaded stamp is used only when one was explicitly saved.
             const savedStamp = localStorage.getItem('customStamp');
-            if (savedStamp) { stampDataURL = savedStamp;
-                setTimeout(() => { generatePAL();
-                    generateDO(); }, 100); } else { loadDefaultStamp(); }
+            stampDataURL = savedStamp || DEFAULT_STAMP_URL;
+            setTimeout(() => { generatePAL(); generateDO(); }, 100);
 
             calcGst();
             document.getElementById('invDate').value = new Date().toISOString().split('T')[0];
@@ -3361,27 +3422,8 @@ Management</textarea></div>
         //  STAMP HANDLING
         // ================================================================
         function loadDefaultStamp() {
-            if (stampDataURL) return;
-            const canvas = document.createElement('canvas');
-            canvas.width = 200;
-            canvas.height = 80;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 200, 80);
-            ctx.strokeStyle = '#1a4b8c';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(2, 2, 196, 76);
-            ctx.fillStyle = '#1a4b8c';
-            ctx.font = 'bold 14px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('AUTHORIZED', 100, 30);
-            ctx.font = 'bold 18px Arial';
-            ctx.fillText('SIGNATORY', 100, 55);
-            ctx.font = '12px Arial';
-            ctx.fillStyle = '#6b7f9a';
-            ctx.fillText('KK INFOTECH', 100, 72);
-            stampDataURL = canvas.toDataURL('image/png');
-            localStorage.setItem('customStamp', stampDataURL);
+            // Automatically use stamp.png located in the same repository/folder as this HTML file.
+            stampDataURL = DEFAULT_STAMP_URL;
             generatePAL();
             generateDO();
         }
@@ -3402,11 +3444,12 @@ Management</textarea></div>
         }
 
         function removeStamp() {
-            stampDataURL = null;
+            // Remove custom upload and restore automatic repository stamp.
             localStorage.removeItem('customStamp');
+            stampDataURL = DEFAULT_STAMP_URL;
             generatePAL();
             generateDO();
-            showToast('🗑️ Stamp removed.', 'info');
+            showToast('✅ Default stamp.png restored.', 'info');
         }
 
         // ================================================================
@@ -3929,9 +3972,9 @@ Management</textarea></div>
         }
 
         function buildDOHTML() {
-            const num = document.getElementById('doNumber').value.trim() || 'AA1G27256';
-            const date = document.getElementById('doDate').value ? new Date(document.getElementById('doDate')
-                .value).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '';
+            const num = document.getElementById('doNumber').value.trim() || '';
+            const date = document.getElementById('doDate').value ? new Date(document.getElementById('doDate').value)
+                .toLocaleDateString('en-IN', { day:'2-digit', month:'2-digit', year:'numeric' }) : '';
             const dealer = document.getElementById('doDealerName').value || '';
             const dealerCity = document.getElementById('doDealerCity').value || '';
             const dAddr1 = document.getElementById('doDealerAddr1').value.trim() || '';
@@ -3947,15 +3990,12 @@ Management</textarea></div>
             const type = document.getElementById('doType').value.trim() || '';
             const model = document.getElementById('doModel').value.trim() || '';
             const quantity = document.getElementById('doQuantity').value.trim() || '';
-            const wheelBase = document.getElementById('doWheelBase').value.trim() || '—';
-            const rso = document.getElementById('doRSO').value.trim() || '—';
-            const colour = document.getElementById('doColour').value.trim() || '—';
+            const wheelBase = document.getElementById('doWheelBase').value.trim() || '';
+            const rso = document.getElementById('doRSO').value.trim() || '';
+            const colour = document.getElementById('doColour').value.trim() || '';
             const loan = document.getElementById('doLoanAmount').value.trim() || '';
-            const s1 = document.getElementById('doSpecial1').value.trim() || '';
-            const s2 = document.getElementById('doSpecial2').value.trim() || '';
-            const s3 = document.getElementById('doSpecial3').value.trim() || '';
-            const s4 = document.getElementById('doSpecial4').value.trim() || '';
-            const s5 = document.getElementById('doSpecial5').value.trim() || '';
+            const specials = ['doSpecial1','doSpecial2','doSpecial3','doSpecial4','doSpecial5']
+                .map(id => document.getElementById(id).value.trim()).filter(Boolean);
             const creditLoan = document.getElementById('doCreditLoan').value.trim() || '';
             const creditTenure = document.getElementById('doCreditTenure').value.trim() || '';
             const price = document.getElementById('doVehiclePrice').value.trim() || '';
@@ -3964,118 +4004,106 @@ Management</textarea></div>
             const subvention = document.getElementById('doSubvention').value.trim() || 'NIL';
             const others = document.getElementById('doOthers').value.trim() || 'NIL';
             const netPayable = document.getElementById('doNetPayable').value.trim() || '';
-            const signatory = document.getElementById('doSignatory').value.trim() || '(Authorized Signatory)';
-            const regdOffice = document.getElementById('doRegdOffice').value.trim() ||
-                'Sudarshan Building, 86 Chamiers Road, Chennai - 600 018.';
+            const signatory = document.getElementById('doSignatory').value.trim() || 'Authorised Signatory';
+            const regdOffice = document.getElementById('doRegdOffice').value.trim() || 'Sudarshan Building, 86 Chamiers Road, Chennai - 600 018.';
 
-            const dealerAddr = [dAddr1, dAddr2, dAddr3].filter(a => a).join('<br/>');
-            const customerAddr = [cAddr1, cAddr2, cAddr3].filter(a => a).join('<br/>');
-
-            const specials = [s1, s2, s3, s4, s5].filter(s => s);
-            let specialHtml = '';
-            if (specials.length > 0) {
-                specialHtml = `<ul class="do-special-list">`;
-                specials.forEach(s => { specialHtml += `<li>${escapeHtml(s)}</li>`; });
-                specialHtml += `</ul>`;
-            } else {
-                specialHtml =
-                    `<div style="color:var(--text-muted);font-style:italic;font-size:12px;">No special instructions entered.</div>`;
-            }
-
-            const furnishItems = [
-                'Delivery receipt duly completed & signed by the party & witnessed by you.',
-                'Your invoice in triplicate as per the billing instruction given above.',
-                'Form 21 & 22 with loan clause in our favour',
-                'Duplicate keys of the vehicle',
-                'Your official stamped receipt'
-            ];
-            let furnishHtml = `<ul class="do-furnish-list">`;
-            furnishItems.forEach(item => { furnishHtml += `<li>${escapeHtml(item)}</li>`; });
-            furnishHtml += `</ul>`;
+            const dealerLines = [dealer, dealerCity, dAddr1, dAddr2, dAddr3].filter(Boolean);
+            const customerLines = [customer, cAddr1, cAddr2, cAddr3].filter(Boolean);
+            const specialHtml = specials.map((s,i) => `<li>${escapeHtml(s.replace(/^\d+\.\s*/, i+1+'. '))}</li>`).join('');
+            const furnish = [
+                '1. Delivery receipt duly completed & signed by the party & witnessed by you.',
+                '2. Your invoice in triplicate as per the billing instruction given above.',
+                '3. Form 21 & 22 with loan clause in our favour',
+                '4. Duplicate keys of the vehicle',
+                '5. Your official stamped receipt'
+            ].map(x => `<li>${escapeHtml(x)}</li>`).join('');
+            const money = v => v && String(v).toUpperCase() !== 'NIL' ? `Rs. ${escapeHtml(v)}` : escapeHtml(v || 'NIL');
 
             return `
-                <div class="do-header">
-                    <div class="do-header-left">
-                        <img src="indusind_logo.png" alt="IndusInd Bank Logo" class="do-logo-img" style="max-height:50px;width:auto;" onerror="this.style.display='none'" />
+              <div class="do-sheet">
+                <div class="do-main-head">
+                  <div class="do-logo-wrap">
+                    <img src="indusind_logo.png" alt="IndusInd Bank" class="do-logo-img" style="max-height:58px;width:auto;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                    <div class="do-logo-text" style="display:none">IndusInd<small>Bank</small></div>
+                  </div>
+                  <div class="do-bank-name">INDUSIND BANK LTD</div>
+                </div>
+                <div class="do-title-band">DELIVERY ORDER</div>
+
+                <div class="do-row">
+                  <div class="do-cell">
+                    <div class="do-section-head">DEALER DETAILS</div>
+                    <div class="do-dealer-box">
+                      <div class="do-label-line">TO :</div>
+                      <div class="do-address">${dealerLines.length ? dealerLines.map(x=>`<div>${escapeHtml(x)}</div>`).join('') : '&nbsp;'}</div>
                     </div>
-                    ${date ? `<div style="font-size:12px;color:var(--text-muted);white-space:nowrap;">Date : ${date}</div>` : ''}
-                </div>
-                <div class="do-title">DELIVERY ORDER</div>
-                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;margin:4px 0 6px 0;">
-                    <div style="font-weight:600;color:var(--text-primary);">DEALER DETAILS</div>
-                    <div style="font-weight:600;color:var(--text-primary);">OUR REFERENCE</div>
-                </div>
-                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;border-bottom:1px solid var(--border-color);padding-bottom:6px;margin-bottom:6px;">
-                    <div style="font-size:12px;color:var(--text-muted);">&nbsp;</div>
-                    <div style="text-align:right;font-size:13px;">
-                        ${num ? `<div>Delivery Order No. : ${escapeHtml(num)}</div>` : ''}
-                        ${date ? `<div style="font-weight:500;">${date}</div>` : ''}
+                  </div>
+                  <div>
+                    <div class="do-section-head">OUR REFERENCE</div>
+                    <div class="do-reference-box">
+                      <div class="do-reference-top"><div>Delivery Order No. : ${escapeHtml(num)}</div><div>${escapeHtml(date)}</div></div>
+                      <div class="do-message">
+                        <div>Dear Sir,</div>
+                        <div style="margin-top:16px;font-weight:700;">We hereby authorise to deliver the undernoted vehicles/Chassis to:</div>
+                        <div class="customer-block">${customerLines.length ? customerLines.map(x=>`<span>${escapeHtml(x)}</span>`).join('') : '&nbsp;'}</div>
+                      </div>
+                      <div class="do-hypo">
+                        ${soldTo ? `<div style="text-align:left">Sold to – ${escapeHtml(soldTo)}</div>` : ''}
+                        <div>Under Hypothecation&nbsp; Cum Loan Agreement with</div>
+                        <div>${escapeHtml(bank)}</div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <div style="margin:6px 0 4px 0;">
-                    <div style="font-weight:600;color:var(--text-primary);">TO :</div>
-                    ${dealer ? `<div style="font-weight:500;margin-top:2px;color:var(--text-secondary);">${escapeHtml(dealer)}${dealerCity ? ', ' + escapeHtml(dealerCity) : ''}</div>` : ''}
-                    ${dealerAddr ? `<div style="font-size:13px;line-height:1.4;color:var(--text-muted);">${dealerAddr}</div>` : ''}
-                </div>
-                <div style="margin:6px 0 4px 0;"><strong style="color:var(--text-primary);">Dear Sir/ Madam,</strong></div>
-                <div style="margin:6px 0 4px 0;">
-                    <div style="font-weight:600;color:var(--text-primary);">We hereby authorise to deliver the undernoted vehicles/Chassis to:</div>
-                    ${customer ? `<div style="font-weight:500;margin-top:2px;color:var(--text-secondary);">${escapeHtml(customer)}</div>` : ''}
-                    ${customerAddr ? `<div style="font-size:13px;line-height:1.4;color:var(--text-muted);">${customerAddr}</div>` : ''}
-                </div>
-                <div style="margin:6px 0 2px 0;color:var(--text-secondary);">
-                    ${soldTo ? `<div>Sold to – <strong>${escapeHtml(soldTo)}</strong></div>` : ''}
-                    <div>Under Hypothecation Cum Loan Agreement with</div>
-                    <div><strong>${escapeHtml(bank)}</strong></div>
-                </div>
-                <div style="margin:10px 0 6px 0;font-weight:700;font-size:14px;text-decoration:underline;color:var(--text-primary);">PARTICULARS OF THE VEHICLE/CHASSIS/EQUIPMENT</div>
-                <div class="do-vehicle-grid">
-                    ${make ? `<div><span class="do-label">Make :</span> <span class="do-value">${escapeHtml(make)}</span></div>` : ''}
-                    <div><span class="do-label">Wheel Base :</span> <span class="do-value">${escapeHtml(wheelBase)}</span></div>
-                    ${type ? `<div><span class="do-label">Type :</span> <span class="do-value">${escapeHtml(type)}</span></div>` : ''}
-                    <div><span class="do-label">R. S. O :</span> <span class="do-value">${escapeHtml(rso)}</span></div>
-                    ${model ? `<div><span class="do-label">Model :</span> <span class="do-value">${escapeHtml(model)}</span></div>` : ''}
-                    <div><span class="do-label">Colour :</span> <span class="do-value">${escapeHtml(colour)}</span></div>
-                    ${quantity ? `<div><span class="do-label">Quantity :</span> <span class="do-value">${escapeHtml(quantity)}</span></div>` : ''}
-                    ${loan ? `<div><span class="do-label">LOAN :</span> <span class="do-value">Rs. ${escapeHtml(loan)}</span></div>` : ''}
-                </div>
-                <div style="margin:10px 0 4px 0;font-weight:700;font-size:14px;color:var(--text-primary);">SPECIAL INSTRUCTION</div>
-                <div style="margin:2px 0 6px 0;padding-left:4px;">${specialHtml}</div>
-                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;margin:4px 0 6px 0;border-top:1px solid var(--border-color);padding-top:6px;">
-                    <div style="font-weight:700;color:var(--text-primary);">CREDIT PERIOD ( IF APPLICABLE)</div>
-                    ${creditLoan ? `<div style="font-weight:600;color:var(--text-secondary);">LOAN : Rs. ${escapeHtml(creditLoan)}</div>` : ''}
-                    ${creditTenure ? `<div style="font-weight:600;color:var(--text-secondary);">TENURE : ${escapeHtml(creditTenure)}</div>` : ''}
-                </div>
-                <div style="margin:6px 0 4px 0;font-weight:700;font-size:14px;color:var(--text-primary);">Please furnish the following :</div>
-                <div style="margin:2px 0 6px 0;padding-left:4px;">${furnishHtml}</div>
-                <div style="margin:6px 0 4px 0;font-weight:700;font-size:14px;color:var(--text-primary);">Payment Terms</div>
-                <div class="do-payment-terms">
-                    ${price ? `<div><span class="do-label">Vehicle Price :</span> <span class="do-value">Rs. ${escapeHtml(price)}</span></div>` : ''}
-                    ${direct ? `<div><span class="do-label">LESS : Direct Payment :</span> <span class="do-value">Rs. ${escapeHtml(direct)}</span></div>` : ''}
-                    <div><span class="do-label">LESS : Discount :</span> <span class="do-value">${escapeHtml(discount)}</span></div>
-                    <div><span class="do-label">LESS : Subvention :</span> <span class="do-value">${escapeHtml(subvention)}</span></div>
-                    <div><span class="do-label">OTHERS :</span> <span class="do-value">${escapeHtml(others)}</span></div>
-                    ${netPayable ? `<div class="do-net-payable"><span class="do-label">Net Payable :</span> <span style="font-size:18px;">Rs. ${escapeHtml(netPayable)}</span></div>` : ''}
-                </div>
-                <div style="border-top:2px solid var(--border-color);margin:12px 0 10px 0;"></div>
-                <div class="do-sign-row">
+
+                <div class="do-vehicle-title">PARTICULARS OF THE VEHICLE/CHASSIS/EQUIPMENT</div>
+                <table class="do-vehicle-table">
+                  <tr><td><b>Make&nbsp; :</b> ${escapeHtml(make)}</td><td><b>Wheel Base :</b> ${escapeHtml(wheelBase)}</td></tr>
+                  <tr><td><b>Type&nbsp; :</b> ${escapeHtml(type)}</td><td><b>R. S. O :</b> ${escapeHtml(rso)}</td></tr>
+                  <tr><td><b>Model&nbsp; :</b> ${escapeHtml(model)}</td><td><b>Colour :</b> ${escapeHtml(colour)}</td></tr>
+                  <tr><td><b>Quantity&nbsp; :</b> ${escapeHtml(quantity)}</td><td><b>LOAN :</b> ${loan ? 'Rs. '+escapeHtml(loan) : ''}</td></tr>
+                </table>
+
+                <div class="do-bottom-row">
+                  <div class="do-left-bottom">
+                    <div class="do-furnish-box">
+                      <div class="do-furnish-title">Please furnish the following :</div>
+                      <ul class="do-furnish-list">${furnish}</ul>
+                    </div>
+                    <div class="do-payment-title">Payment Terms</div>
+                    <table class="do-payment-table">
+                      <tr><td>*The vehicle price not to exceed</td><td>${money(price)}</td></tr>
+                      <tr><td>LESS : Direct Payment</td><td>${money(direct)}</td></tr>
+                      <tr><td>LESS : Discount</td><td>${money(discount)}</td></tr>
+                      <tr><td>LESS : Subvention</td><td>${money(subvention)}</td></tr>
+                      <tr><td>OTHERS</td><td>${money(others)}</td></tr>
+                      <tr><td><b>Net Payable</b></td><td><b>${money(netPayable)}</b></td></tr>
+                    </table>
+                    <div class="do-customer-ack">
+                      <div class="do-ack-title">CUSTOMER ACKNOWLEDGEMENT</div>
+                      <div class="do-borrower-sign">Signature Of the Borrower</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="do-special-box">
+                      <div class="do-section-head">SPECIAL INSTRUCTION</div>
+                      <ul class="do-special-list">${specialHtml || '<li>&nbsp;</li>'}</ul>
+                    </div>
+                    <div class="do-credit">
+                      <div class="do-section-head" style="margin:-7px -8px 0;">CREDIT PERIOD ( IF APPLICABLE)</div>
+                      <div class="credit-values">
+                        ${creditLoan ? `<div>LOAN:${money(creditLoan)}</div>` : '<div>LOAN:</div>'}
+                        ${creditTenure ? `<div>TENURE ${escapeHtml(creditTenure)}</div>` : '<div>TENURE</div>'}
+                      </div>
+                    </div>
                     <div class="do-sign-box">
-                        <div style="font-size:12px;color:var(--text-muted);">CUSTOMER ACKNOWLEDGEMENT</div>
-                        <div class="do-sign-line" style="width:180px;margin-top:6px;">&nbsp;</div>
-                        <div style="font-size:12px;margin-top:4px;color:var(--text-secondary);">Signature Of the Borrower</div>
+                      ${stampDataURL ? `<img class="do-stamp" src="${stampDataURL}" alt="Stamp" />` : '<div style="flex:1"></div>'}
+                      <div class="do-sign-name">${escapeHtml(signatory)}</div>
                     </div>
-                    <div class="do-sign-box">
-                        <div style="font-size:12px;color:var(--text-muted);">Authorised Signatory</div>
-                        <div class="do-sign-line" style="width:180px;margin-top:6px;display:flex;flex-direction:column;justify-content:center;align-items:center;border-top:none;">
-                            ${stampDataURL ? `<img src="${stampDataURL}" style="max-height:90px;max-width:100%;object-fit:contain;" alt="Stamp" />` : ''}
-                            <span style="font-size:14px;font-weight:500;margin-top:4px;color:var(--text-secondary);">${escapeHtml(signatory)}</span>
-                        </div>
-                    </div>
+                  </div>
                 </div>
-                <div style="margin-top:10px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-color);padding-top:6px;text-align:center;">
-                    Regd. Office : ${escapeHtml(regdOffice)}
-                </div>
-            `;
+                <div class="do-regd">Regd. Office : ${escapeHtml(regdOffice)}</div>
+              </div>`;
         }
 
         function generateDO() {
@@ -4118,22 +4146,54 @@ Management</textarea></div>
             }
             if (isDO) {
                 extraStyles = `
-                    body { font-family: 'Inter', sans-serif; padding: 8mm 10mm; background:#ffffff; color:#0b1a33; font-size:13px; line-height:1.5; }
-                    .do-preview { padding:0; border:none; max-width:100%; }
-                    .do-preview .do-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #dce5ef; padding-bottom:6px; margin-bottom:8px; flex-wrap:wrap; gap:8px; }
-                    .do-preview .do-header .do-logo-img { max-height:50px; width:auto; object-fit:contain; }
-                    .do-preview .do-title { text-align:center; font-size:22px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin:4px 0 10px 0; color:#0b1a33; }
-                    .do-preview .do-label { font-weight:600; color:#2c3e5a; }
-                    .do-preview .do-value { font-weight:500; }
-                    .do-preview .do-vehicle-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px 16px; margin:4px 0; }
-                    .do-preview .do-payment-terms { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px 16px; margin:4px 0; }
-                    .do-preview .do-net-payable { font-weight:700; font-size:15px; color:#1e7e34; border-top:2px solid #dce5ef; padding-top:4px; margin-top:4px; grid-column:1/-1; }
-                    .do-preview .do-sign-row { display:flex; justify-content:space-between; margin-top:16px; padding-top:10px; border-top:1px solid #dce5ef; }
-                    .do-preview .do-sign-row .do-sign-box { text-align:center; min-width:160px; }
-                    .do-preview .do-sign-row .do-sign-box .do-sign-line { border-top:1px solid #dce5ef; width:160px; margin:4px auto 0; padding-top:4px; font-weight:500; }
-                    .do-special-list, .do-furnish-list { list-style:none; padding:0; margin:2px 0; }
-                    .do-special-list li, .do-furnish-list li { padding:1px 0; font-size:12.5px; line-height:1.5; }
-                    .do-special-list li::before, .do-furnish-list li::before { content:"• "; color:#1a4b8c; font-weight:700; }
+                    @page { size:A4 portrait; margin:6mm; }
+                    body { font-family:Arial, Helvetica, sans-serif; padding:0; background:#fff; color:#111; width:auto; min-height:auto; font-size:12px; }
+                    .do-preview { padding:0!important; border:none!important; max-width:100%!important; box-shadow:none!important; }
+                    .do-sheet { width:100%; border:1.5px solid #111; color:#111; font-family:Arial,Helvetica,sans-serif; font-size:11px; line-height:1.22; }
+                    .do-sheet * { box-sizing:border-box; }
+                    .do-row,.do-bottom-row { display:grid; grid-template-columns:1fr 1fr; }
+                    .do-cell { border-right:1px solid #111; }
+                    .do-row > :last-child { border-right:none; }
+                    .do-main-head { min-height:74px; display:flex; align-items:flex-start; justify-content:space-between; padding:7px 9px; border-bottom:1px solid #111; }
+                    .do-logo-img { max-height:50px; width:auto; }
+                    .do-logo-text { font-size:24px; font-weight:800; font-style:italic; }
+                    .do-logo-text small { display:block; font-size:16px; margin-left:58px; }
+                    .do-bank-name { font-size:11px; font-weight:700; }
+                    .do-title-band { border-bottom:1px solid #111; text-align:center; font-weight:700; padding:3px; }
+                    .do-section-head { text-align:center; font-weight:700; border-bottom:1px solid #111; padding:3px 5px; }
+                    .do-dealer-box,.do-reference-box { min-height:225px; padding:8px 10px; }
+                    .do-reference-top { border-bottom:1px solid #111; display:grid; grid-template-columns:1fr auto; font-weight:700; padding:3px 5px; margin:-8px -10px 7px; }
+                    .do-reference-top > div:first-child { border-right:1px solid #111; padding-right:7px; margin-right:7px; }
+                    .do-label-line { margin-bottom:8px; font-weight:700; }
+                    .do-address { margin-top:12px; font-weight:700; line-height:1.45; }
+                    .do-message { margin-top:25px; line-height:1.45; }
+                    .customer-block { margin-top:15px; font-weight:700; }
+                    .customer-block span { display:block; }
+                    .do-hypo { margin-top:15px; font-weight:700; text-align:center; line-height:1.35; }
+                    .do-vehicle-title { border-top:1px solid #111; border-bottom:1px solid #111; text-align:center; font-weight:700; padding:3px; }
+                    .do-vehicle-table,.do-payment-table { width:100%; border-collapse:collapse; table-layout:fixed; }
+                    .do-vehicle-table td { width:50%; border-right:1px solid #111; border-bottom:1px solid #111; padding:3px 6px; }
+                    .do-vehicle-table tr td:last-child { border-right:none; }
+                    .do-left-bottom { border-right:1px solid #111; }
+                    .do-furnish-box { min-height:120px; padding-bottom:5px; border-bottom:1px solid #111; }
+                    .do-furnish-title { padding:6px 7px 0; font-weight:700; }
+                    .do-special-box { border-bottom:1px solid #111; }
+                    .do-special-list,.do-furnish-list { list-style:none; padding:0; margin:4px 7px; }
+                    .do-special-list li,.do-furnish-list li { margin:2px 0; line-height:1.24; }
+                    .do-special-list li { font-weight:600; }
+                    .do-credit { padding:6px 7px 7px; min-height:80px; }
+                    .credit-values { margin-top:7px; font-weight:700; line-height:1.4; }
+                    .do-payment-title,.do-ack-title { text-align:center; font-weight:700; border-bottom:1px solid #111; padding:3px; }
+                    .do-payment-table td { border-right:1px solid #111; border-bottom:1px solid #111; padding:3px 6px; }
+                    .do-payment-table td:first-child { width:68%; }
+                    .do-payment-table td:last-child { border-right:none; width:32%; text-align:right; font-weight:700; }
+                    .do-customer-ack { min-height:100px; border-bottom:1px solid #111; }
+                    .do-borrower-sign { text-align:center; padding-top:42px; font-weight:700; }
+                    .do-sign-box { min-height:185px; padding:7px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center; }
+                    .do-stamp { max-height:100px; max-width:85%; object-fit:contain; margin:auto 0 2px; }
+                    .do-sign-name { font-weight:700; }
+                    .do-regd { border-top:1px solid #111; padding:4px 7px; font-size:9px; font-weight:700; }
+                    @media print { body { padding:0!important; } }
                 `;
             }
             win.document.write(`
