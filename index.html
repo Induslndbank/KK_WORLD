@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KK INFOTECH</title>
+    <!-- Company logo file expected in same repository folder: logo.png -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
@@ -721,6 +722,11 @@
             background: var(--accent);
             color: #fff;
         }
+        /* Preview buttons are hidden; documents can be saved and printed directly. */
+        #generateInvoiceBtn, #generateReceiptBtn, #generateLetterBtn, #generatePalBtn, #generateDoBtn {
+            display: none !important;
+        }
+
         .btn-print:hover {
             background: var(--accent-light);
             transform: translateY(-1px);
@@ -1623,6 +1629,25 @@
                 border-color: #dce5ef !important;
             }
         }
+
+        /* ===== KK INFOTECH COMPANY LOGO ===== */
+        .kk-company-logo {
+            display:block;
+            width:auto;
+            height:58px;
+            max-width:260px;
+            object-fit:contain;
+        }
+        .login-header .kk-company-logo { height:44px; max-width:210px; }
+        .login-card .brand-icon { justify-content:center; margin-bottom:16px; }
+        .login-card .brand-icon .kk-company-logo { height:92px; max-width:100%; }
+        .top-header .logo-text { display:flex; align-items:center; }
+        .top-header .logo-text .kk-company-logo { height:46px; max-width:230px; }
+        @media (max-width: 600px) {
+            .login-header .kk-company-logo { height:34px; max-width:160px; }
+            .login-card .brand-icon .kk-company-logo { height:74px; }
+            .top-header .logo-text .kk-company-logo { height:38px; max-width:180px; }
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -1631,13 +1656,12 @@
     <!-- ========== LOGIN PAGE ========== -->
     <div id="loginPage" class="login-page">
         <div class="login-header">
-            <div class="brand">KK<span>INFOTECH</span></div>
+            <div class="brand"><img src="logo.png" alt="KK INFOTECH" class="kk-company-logo" /></div>
             <div class="datetime" id="loginDateTime"><i class="fas fa-calendar-day"></i><span id="loginDateTimeText">Loading…</span></div>
         </div>
         <div class="login-card">
             <div class="brand-icon">
-                <i class="fas fa-university"></i>
-                <h1>KK<span>INFOTECH</span></h1>
+                <img src="logo.png" alt="KK INFOTECH" class="kk-company-logo" />
             </div>
             <p class="subtitle">Secure Banking Login</p>
             <div class="form-group">
@@ -1647,10 +1671,6 @@
             <div class="form-group">
                 <label for="loginPassword">Password</label>
                 <div class="input-wrap"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="Enter password" /></div>
-            </div>
-            <div class="form-group">
-                <label for="loginRole">Login as</label>
-                <div class="input-wrap"><i class="fas fa-user-tag"></i><select id="loginRole"><option value="admin">Admin</option><option value="user">User</option></select></div>
             </div>
             <button class="btn-login" id="loginBtn"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
             <div class="login-error" id="loginError"></div>
@@ -1664,8 +1684,7 @@
         <header class="top-header">
             <div class="left">
                 <div class="logo-text">
-                    <i class="fas fa-university" style="color:var(--accent);font-size:24px;margin-right:6px;"></i>
-                    <span style="font-weight:800;font-size:20px;color:var(--text-primary);">KK<span style="color:var(--accent);">INFOTECH</span></span>
+                    <img src="logo.png" alt="KK INFOTECH" class="kk-company-logo" />
                 </div>
                 <!-- Connection Status Indicator -->
                 <div class="connection-status" id="connectionStatus">
@@ -1707,6 +1726,7 @@
                 <div class="nav-label">Main</div>
                 <button class="nav-item active" data-page="dashboardPage" data-role="all"><i class="fas fa-th-large"></i><span>Dashboard</span></button>
                 <button class="nav-item" data-page="usersPage" data-role="admin" id="usersNav"><i class="fas fa-users"></i><span>Users</span></button>
+                <button class="nav-item" data-page="userLogsPage" data-role="admin" id="userLogsNav"><i class="fas fa-clipboard-list"></i><span>User Logs</span></button>
                 <button class="nav-item" data-page="dealersPage" data-role="admin" id="dealersNav"><i class="fas fa-store"></i><span>Dealers</span></button>
                 <button class="nav-item" data-page="gstPage" data-role="all"><i class="fas fa-calculator"></i><span>GST Calculator</span></button>
                 <button class="nav-item" data-page="invoicePage" data-role="all"><i class="fas fa-file-invoice"></i><span>Invoice</span></button>
@@ -1746,6 +1766,20 @@
                 <div id="usersPage" class="page-section">
                     <div class="card-header"><div><h2>User Management</h2><p class="section-desc" style="margin:0;">Add, edit, or remove users. Admins have full control.</p></div><button class="btn btn-primary" id="addUserBtn"><i class="fas fa-plus"></i> Add User</button></div>
                     <div class="card"><div class="table-wrap"><table><thead><tr><th>User</th><th>Username</th><th>Role</th><th>Tab Access</th><th style="text-align:right;">Actions</th></tr></thead><tbody id="userTableBody"></tbody></table></div></div>
+                </div>
+
+                <!-- USER LOGS : ADMIN ONLY -->
+                <div id="userLogsPage" class="page-section">
+                    <div class="card-header"><div><h2>User Activity Logs</h2><p class="section-desc" style="margin:0;">Tracks login success/failed, logout, save, modify, delete and print actions. Visible only to Admin.</p></div><div class="flex flex-wrap gap-8"><button class="btn btn-outline" onclick="renderUserLogs()"><i class="fas fa-sync"></i> Refresh</button><button class="btn btn-outline" onclick="exportUserLogs()"><i class="fas fa-file-export"></i> Export</button><button class="btn btn-danger" onclick="clearUserLogs()"><i class="fas fa-trash"></i> Clear</button></div></div>
+                    <div class="card">
+                        <div class="do-form-grid" style="margin-bottom:16px;">
+                            <div class="form-group"><label>Username</label><input id="logUserFilter" placeholder="Filter by username" oninput="renderUserLogs()"></div>
+                            <div class="form-group"><label>Action</label><input id="logActionFilter" placeholder="Filter by action" oninput="renderUserLogs()"></div>
+                            <div class="form-group"><label>From Date</label><input type="date" id="logFromDate" onchange="renderUserLogs()"></div>
+                            <div class="form-group"><label>To Date</label><input type="date" id="logToDate" onchange="renderUserLogs()"></div>
+                        </div>
+                        <div class="table-wrap"><table><thead><tr><th>Date & Time</th><th>Username</th><th>Role</th><th>Action</th><th>Details</th></tr></thead><tbody id="userLogsTableBody"></tbody></table></div>
+                    </div>
                 </div>
 
                 <!-- DEALER MANAGEMENT -->
@@ -2126,6 +2160,42 @@ Management</textarea></div>
                 localStorage.setItem(this._prefix + 'docs_' + type, JSON.stringify(docs));
             },
 
+            getUserLogsLocal() {
+                try { const data = localStorage.getItem(this._prefix + 'user_logs'); return data ? JSON.parse(data) : []; } catch { return []; }
+            },
+
+            saveUserLogsLocal(logs) {
+                localStorage.setItem(this._prefix + 'user_logs', JSON.stringify((logs || []).slice(-2000)));
+            },
+
+            // Persistent login session. The session stays active after browser/page refresh
+            // and is removed only when the user explicitly logs out or the account is disabled.
+            getSessionLocal() {
+                try {
+                    const data = localStorage.getItem(this._prefix + 'session');
+                    return data ? JSON.parse(data) : null;
+                } catch { return null; }
+            },
+
+            saveSessionLocal(user, activePage = '') {
+                if (!user) return;
+                const safeUser = { ...user };
+                delete safeUser.password;
+                this.markCurrentTabSession();
+                localStorage.setItem(this._prefix + 'session', JSON.stringify({
+                    user: safeUser,
+                    activePage: activePage || '',
+                    updatedAt: new Date().toISOString()
+                }));
+            },
+
+            clearSessionLocal() {
+                localStorage.removeItem(this._prefix + 'session');
+                try { sessionStorage.removeItem(this._prefix + 'session_tab'); } catch (e) {}
+            },
+            hasCurrentTabSession() { try { return sessionStorage.getItem(this._prefix + 'session_tab') === 'active'; } catch (e) { return false; } },
+            markCurrentTabSession() { try { sessionStorage.setItem(this._prefix + 'session_tab', 'active'); } catch (e) {} },
+
             getAllDataLocal() {
                 const data = {
                     users: this.getUsersLocal(),
@@ -2213,6 +2283,12 @@ Management</textarea></div>
                         );
                         return u ? { success: true, user: u } : { success: false, error: 'Invalid credentials.' };
                     }
+                    case 'getUserLogs':
+                        return { success: true, data: StorageManager.getUserLogsLocal() || [] };
+                    case 'saveUserLog': {
+                        const logs = StorageManager.getUserLogsLocal() || []; logs.unshift(payload.log); StorageManager.saveUserLogsLocal(logs); return { success: true };
+                    }
+                    case 'clearUserLogs': StorageManager.saveUserLogsLocal([]); return { success: true };
                     case 'getUsers':
                         return { success: true, data: StorageManager.getUsersLocal() || [] };
                     case 'getDealers':
@@ -2719,6 +2795,7 @@ Management</textarea></div>
         const pageSections = {
             dashboardPage: document.getElementById('dashboardPage'),
             usersPage: document.getElementById('usersPage'),
+            userLogsPage: document.getElementById('userLogsPage'),
             dealersPage: document.getElementById('dealersPage'),
             gstPage: document.getElementById('gstPage'),
             invoicePage: document.getElementById('invoicePage'),
@@ -2731,13 +2808,16 @@ Management</textarea></div>
         function navigateTo(pageId) {
             if (pageId === 'dashboardPage' && currentUser?.role !== 'admin') { pageId = 'gstPage'; }
             if (pageId === 'usersPage' && currentUser?.role !== 'admin') { pageId = 'gstPage'; }
+            if (pageId === 'userLogsPage' && currentUser?.role !== 'admin') { pageId = 'gstPage'; }
             if (pageId === 'dealersPage' && currentUser?.role !== 'admin') { pageId = 'gstPage'; }
 
             Object.values(pageSections).forEach(el => el.classList.remove('active'));
             const target = pageSections[pageId];
             if (target) target.classList.add('active');
             navItems.forEach(item => { item.classList.toggle('active', item.dataset.page === pageId); });
+            if (currentUser) StorageManager.saveSessionLocal(currentUser, pageId);
             if (pageId === 'usersPage') renderUserTable();
+            if (pageId === 'userLogsPage') renderUserLogs();
             if (pageId === 'dealersPage') renderDealerTable();
             if (pageId === 'dashboardPage') updateDashboardStats();
             if (pageId === 'invoicePage') { generateInvoice();
@@ -2771,6 +2851,7 @@ Management</textarea></div>
                 const page = item.dataset.page;
                 if (page === 'dashboardPage') { item.classList.toggle('hidden-nav', currentUser.role !== 'admin'); return; }
                 if (page === 'usersPage') { item.classList.toggle('hidden-nav', currentUser.role !== 'admin'); return; }
+                if (page === 'userLogsPage') { item.classList.toggle('hidden-nav', currentUser.role !== 'admin'); return; }
                 if (page === 'dealersPage') { item.classList.toggle('hidden-nav', currentUser.role !== 'admin'); return; }
                 item.classList.toggle('hidden-nav', !userTabs.includes(page));
             });
@@ -2845,19 +2926,66 @@ Management</textarea></div>
         }
 
         // ================================================================
+        //  USER ACTIVITY LOGS (ADMIN ONLY)
+        // ================================================================
+        function getLocalLogs() { return StorageManager.getUserLogsLocal() || []; }
+        async function addUserLog(action, details = '', logUser = null) {
+            const actor = logUser || currentUser;
+            if (!actor) return;
+            const log = { id: 'log_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), timestamp: new Date().toISOString(), username: actor.username || '', role: actor.role || 'user', action, details };
+            const local = getLocalLogs(); local.unshift(log); StorageManager.saveUserLogsLocal(local);
+            if (SheetAPI.isConfigured()) SheetAPI.fetchFromSheet('saveUserLog', { log }).catch(() => {});
+        }
+        async function renderUserLogs() {
+            if (currentUser?.role !== 'admin') return;
+            let logs = getLocalLogs();
+            if (SheetAPI.isConfigured()) { const r = await SheetAPI.fetchFromSheet('getUserLogs', {}); if (r.success && Array.isArray(r.data) && r.data.length) { logs = r.data; StorageManager.saveUserLogsLocal(logs); } }
+            const userF = (document.getElementById('logUserFilter')?.value || '').toLowerCase();
+            const actionF = (document.getElementById('logActionFilter')?.value || '').toLowerCase();
+            const from = document.getElementById('logFromDate')?.value || ''; const to = document.getElementById('logToDate')?.value || '';
+            logs = logs.filter(l => { const d = String(l.timestamp || ''); const day = d.slice(0,10); return (!userF || String(l.username||'').toLowerCase().includes(userF)) && (!actionF || String(l.action||'').toLowerCase().includes(actionF)) && (!from || day >= from) && (!to || day <= to); });
+            const body = document.getElementById('userLogsTableBody'); if (!body) return;
+            body.innerHTML = logs.length ? logs.map(l => `<tr><td>${escapeHtml(new Date(l.timestamp).toLocaleString())}</td><td>${escapeHtml(l.username||'')}</td><td>${escapeHtml(l.role||'')}</td><td><span class="badge">${escapeHtml(l.action||'')}</span></td><td>${escapeHtml(l.details||'')}</td></tr>`).join('') : '<tr><td colspan="5" class="text-center">No user logs found.</td></tr>';
+        }
+        async function clearUserLogs() { if (currentUser?.role !== 'admin' || !confirm('Clear all user logs?')) return; StorageManager.saveUserLogsLocal([]); if (SheetAPI.isConfigured()) await SheetAPI.fetchFromSheet('clearUserLogs', {}); renderUserLogs(); }
+        function exportUserLogs() { if (currentUser?.role !== 'admin') return; const logs=getLocalLogs(); const rows=['Date & Time,Username,Role,Action,Details', ...logs.map(l=>[l.timestamp,l.username,l.role,l.action,l.details].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','))]; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'})); a.download='user_logs.csv'; a.click(); URL.revokeObjectURL(a.href); }
+
+        // ================================================================
+        //  AUTOMATIC SESSION TIMEOUT (5 MINUTES)
+        // ================================================================
+        const AUTO_LOGOUT_MS = 5 * 60 * 1000;
+        let _lastUserActivityAt = Date.now();
+        let _autoLogoutInProgress = false;
+        function resetAutoLogoutTimer() { if (currentUser) _lastUserActivityAt = Date.now(); }
+        async function autoLogout(reason = 'No activity for 5 minutes') {
+            if (_autoLogoutInProgress || !currentUser) return;
+            _autoLogoutInProgress = true;
+            try { await addUserLog('AUTO LOGOUT', reason); } catch (e) {}
+            StorageManager.clearSessionLocal(); currentUser = null; window._editingDoc = null;
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').textContent = 'You have been automatically logged out due to inactivity.';
+            document.getElementById('profileDropdown').classList.remove('open');
+            showToast('You were automatically logged out after 5 minutes of inactivity.', 'info');
+            _autoLogoutInProgress = false;
+        }
+        ['mousemove','mousedown','keydown','touchstart','scroll','click','input','change'].forEach(evt => document.addEventListener(evt, resetAutoLogoutTimer, { passive: true }));
+        setInterval(() => { if (currentUser && Date.now() - _lastUserActivityAt >= AUTO_LOGOUT_MS) autoLogout(); }, 10000);
+
+        // ================================================================
         //  LOGIN / LOGOUT
         // ================================================================
         const loginUsername = document.getElementById('loginUsername');
         const loginPassword = document.getElementById('loginPassword');
-        const loginRole = document.getElementById('loginRole');
         const loginError = document.getElementById('loginError');
 
         async function attemptLogin() {
             if (window._loginBusy) return;
             const username = loginUsername.value.trim();
             const password = loginPassword.value.trim();
-            const role = loginRole.value;
-            if (!username || !password) { loginError.textContent = 'Please enter username and password.'; return; }
+            let role = '';
+            if (!username || !password) { loginError.textContent = 'Please enter username and password.'; if (username) addUserLog('LOGIN FAILED', 'Username or password missing', { username, role: 'unknown' }); return; }
 
             window._loginBusy = true;
             const btn = document.getElementById('loginBtn');
@@ -2873,26 +3001,27 @@ Management</textarea></div>
                 const cached = localUsers.find(u =>
                     String(u.username || '').toLowerCase() === username.toLowerCase() &&
                     String(u.password || '') === password &&
-                    String(u.role || '').toLowerCase() === role.toLowerCase() &&
                     u.active !== false
                 );
 
                 if (cached) {
                     currentUser = { ...cached };
                     users = localUsers;
+                    StorageManager.saveSessionLocal(currentUser);
                     loginError.textContent = '';
                     enterDashboard();
                     showToast('⚡ Fast login successful. Verifying server in background…', 'info');
 
                     // Do not make the user wait for sheet initialization or other data.
                     if (SheetAPI.isConfigured()) {
-                        SheetAPI.fetchFromSheet('login', { username, password, role }).then(async result => {
+                        SheetAPI.fetchFromSheet('login', { username, password, role: currentUser.role || 'user' }).then(async result => {
                             if (!result.success || !result.user) {
                                 console.warn('Background server verification failed. Keeping local session.');
                                 updateConnectionStatus('red', 'Server unavailable — Local mode');
                                 return;
                             }
                             currentUser = { ...currentUser, ...result.user };
+                            StorageManager.saveSessionLocal(currentUser);
                             updateHeaderForCurrentUser();
                             // Refresh caches without blocking the active session.
                             if (!sheetsInitialized) {
@@ -2915,13 +3044,18 @@ Management</textarea></div>
                 }
 
                 // No local cache: make only the minimum required server request.
-                const loginResult = await SheetAPI.fetchFromSheet('login', { username, password, role });
+                let loginResult = await SheetAPI.fetchFromSheet('login', { username, password, role: 'admin' });
                 if (!loginResult.success || !loginResult.user) {
-                    loginError.textContent = loginResult.error || 'Invalid credentials or role mismatch.';
+                    loginResult = await SheetAPI.fetchFromSheet('login', { username, password, role: 'user' });
+                }
+                if (!loginResult.success || !loginResult.user) {
+                    loginError.textContent = loginResult.error || 'Invalid username or password.';
+                    addUserLog('LOGIN FAILED', 'Invalid username or password', { username, role: 'unknown' });
                     return;
                 }
 
                 const user = loginResult.user;
+                role = user.role || 'user';
                 const localUser = users.find(u => String(u.id) === String(user.id) ||
                     String(u.username || '').toLowerCase() === String(user.username || '').toLowerCase());
                 currentUser = localUser ? { ...localUser, ...user } : user;
@@ -2931,6 +3065,7 @@ Management</textarea></div>
                 if (idx >= 0) cacheUsers[idx] = { ...cacheUsers[idx], ...user, password };
                 else cacheUsers.push({ ...user, password });
                 StorageManager.saveUsersLocal(cacheUsers);
+                StorageManager.saveSessionLocal(currentUser);
 
                 enterDashboard();
                 // Everything else happens in background.
@@ -2944,6 +3079,7 @@ Management</textarea></div>
                 }).catch(err => console.warn('Background data refresh:', err));
             } catch (err) {
                 loginError.textContent = 'Login error: ' + err.message;
+                addUserLog('LOGIN FAILED', 'Login error: ' + err.message, { username: loginUsername.value.trim(), role: 'unknown' });
                 console.error('Login error:', err);
             } finally {
                 window._loginBusy = false;
@@ -2972,14 +3108,27 @@ Management</textarea></div>
             updateDateTimeDisplay();
         }
 
-        function enterDashboard() {
+        function enterDashboard(options = {}) {
+            resetAutoLogoutTimer();
+            StorageManager.markCurrentTabSession();
+            const restored = options.restored === true;
+            const savedPage = options.activePage || '';
+            if (currentUser) StorageManager.saveSessionLocal(currentUser, savedPage);
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('dashboard').style.display = 'flex';
             updateHeaderForCurrentUser();
             renderUserTable();
             updateDashboardStats();
+            if (!restored) addUserLog('LOGIN', 'User signed in successfully');
 
-            if (currentUser.role === 'admin') { navigateTo('dashboardPage'); } else { navigateTo('gstPage'); }
+            const allowedSavedPage = savedPage && pageSections[savedPage] ? savedPage : '';
+            if (allowedSavedPage) {
+                navigateTo(allowedSavedPage);
+            } else if (currentUser.role === 'admin') {
+                navigateTo('dashboardPage');
+            } else {
+                navigateTo('gstPage');
+            }
 
             // Auto-load stamp.png from the same GitHub/repository folder.
             // A user-uploaded stamp is used only when one was explicitly saved.
@@ -3018,10 +3167,12 @@ Management</textarea></div>
                 statusMsg = 'Using Local Storage. Configure server URL for cloud sync.';
                 updateConnectionStatus('red', 'Local Storage Only');
             }
-            showToast('✅ Welcome! ' + statusMsg, sheetsInitialized ? 'success' : 'info');
+            showToast((restored ? '🔄 Session restored. ' : '✅ Welcome! ') + statusMsg, sheetsInitialized ? 'success' : 'info');
         }
 
         function logout() {
+            addUserLog('LOGOUT', 'User signed out');
+            StorageManager.clearSessionLocal();
             currentUser = null;
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loginPage').style.display = 'flex';
@@ -4214,18 +4365,30 @@ Management</textarea></div>
         // ================================================================
         //  PRINT EVENT HANDLERS
         // ================================================================
-        document.getElementById('printInvoiceBtn').addEventListener('click', () => { printDocument(buildInvoiceHTML(),
-                'Invoice'); });
-        document.getElementById('printReceiptBtn').addEventListener('click', () => { printDocument(buildReceiptHTML(),
-                'Money Receipt'); });
-        document.getElementById('printLetterBtn').addEventListener('click', () => { printDocument(buildLetterHTML(),
-                'Letter Head'); });
-        document.getElementById('printPalBtn').addEventListener('click', () => { formatAllCurrencyInputs();
+        document.getElementById('printInvoiceBtn').addEventListener('click', () => {
+            addUserLog('PRINT', 'Printed Invoice');
+            printDocument(buildInvoiceHTML(), 'Invoice');
+        });
+        document.getElementById('printReceiptBtn').addEventListener('click', () => {
+            addUserLog('PRINT', 'Printed Money Receipt (MR)');
+            printDocument(buildReceiptHTML(), 'Money Receipt');
+        });
+        document.getElementById('printLetterBtn').addEventListener('click', () => {
+            addUserLog('PRINT', 'Printed Letter Head');
+            printDocument(buildLetterHTML(), 'Letter Head');
+        });
+        document.getElementById('printPalBtn').addEventListener('click', () => {
+            formatAllCurrencyInputs();
             updateCalculations();
-            printDocument(buildPALHTML(), 'Principal Approval Letter', true); });
-        document.getElementById('printDoBtn').addEventListener('click', () => { updateDONetPayable();
-            printDocument(`<div class="do-preview" style="padding:0;border:none;max-width:100%;">${buildDOHTML()}</div>`,
-                'Delivery Order', false, true); });
+            addUserLog('PRINT', 'Printed Principal Approval Letter (PAL)');
+            printDocument(buildPALHTML(), 'Principal Approval Letter', true);
+        });
+        document.getElementById('printDoBtn').addEventListener('click', () => {
+            updateDONetPayable();
+            const doData = getDoData();
+            addUserLog('PRINT', 'Printed Delivery Order' + (doData.number ? ' - DO No: ' + doData.number : ''));
+            printDocument(`<div class="do-preview" style="padding:0;border:none;max-width:100%;">${buildDOHTML()}</div>`, 'Delivery Order', false, true);
+        });
 
         // ================================================================
         //  AUTO-NUMBER GENERATORS
@@ -4248,6 +4411,28 @@ Management</textarea></div>
             const nextNum = maxNum + 1;
             const padded = String(nextNum).padStart(3, '0');
             return `${prefix}-${year}-${padded}`;
+        }
+
+        // ================================================================
+        //  DUPLICATE DOCUMENT NUMBER VALIDATION
+        // ================================================================
+        function getDocumentNumberLabel(type) {
+            if (type === 'invoice') return 'Invoice No.';
+            if (type === 'receipt') return 'MR No.';
+            if (type === 'do') return 'DO No.';
+            return 'Document No.';
+        }
+
+        async function isDuplicateDocumentNumber(type, number, editingId = '') {
+            const normalizedNumber = String(number || '').trim().toLowerCase();
+            if (!normalizedNumber) return false;
+
+            const docs = await loadDocs(type);
+            return docs.some(doc => {
+                if (editingId && String(doc.id) === String(editingId)) return false;
+                const existingNumber = String(doc?.data?.number || '').trim().toLowerCase();
+                return existingNumber === normalizedNumber;
+            });
         }
 
         // ================================================================
@@ -4289,6 +4474,22 @@ Management</textarea></div>
                 docId = window._editingDoc.id;
             }
 
+            // Prevent duplicate DO, Invoice and Money Receipt (MR) numbers.
+            // While editing, the current document itself is excluded from the check.
+            if (type === 'invoice' || type === 'receipt' || type === 'do') {
+                const documentNumber = String(data.number || '').trim();
+                if (!documentNumber) {
+                    showToast(`⚠️ ${getDocumentNumberLabel(type)} is required.`, 'error');
+                    return null;
+                }
+
+                const duplicateExists = await isDuplicateDocumentNumber(type, documentNumber, docId);
+                if (duplicateExists) {
+                    showToast(`⚠️ ${getDocumentNumberLabel(type)} already exist!`, 'error');
+                    return null;
+                }
+            }
+
             const doc = {
                 id: docId || SheetAPI.generateId(),
                 type: type,
@@ -4322,6 +4523,9 @@ Management</textarea></div>
                 window._editingDoc = null;
                 updateNumberFieldPermissions();
                 await loadSavedDocs(type);
+                const actionName = editingSameType ? `${type.toUpperCase()} MODIFIED` : `${type.toUpperCase()} SAVED`;
+                const docNo = data.number || data.customer || data.company || title || '';
+                addUserLog(actionName, `${type} saved successfully${docNo ? ': ' + docNo : ''}`);
                 showToast(`${type} saved successfully!`, 'success');
             }
             return saved;
@@ -4513,6 +4717,7 @@ Management</textarea></div>
                 if (!doc) { showToast('Document not found or you do not have permission.', 'error'); return; }
                 if (!confirm(`Delete this ${type}? This action cannot be undone.`)) return;
                 await deleteDocFromStorage(type, id);
+                addUserLog(`${type.toUpperCase()} DELETED`, `Deleted ${doc.title || type}`);
                 await loadSavedDocs(type);
                 showToast(`${type} deleted successfully.`, 'success');
             } catch (err) {
@@ -4762,7 +4967,8 @@ Management</textarea></div>
         document.getElementById('saveInvoiceBtn').addEventListener('click', async function() {
             const data = getInvoiceData();
             const title = `Invoice ${data.number || ''} - ${data.customer || ''}`;
-            await saveDocument('invoice', data, title);
+            const saved = await saveDocument('invoice', data, title);
+            if (!saved) return;
             await loadSavedDocs('invoice');
             generateInvoice();
         });
@@ -4770,7 +4976,8 @@ Management</textarea></div>
         document.getElementById('saveReceiptBtn').addEventListener('click', async function() {
             const data = getReceiptData();
             const title = `Receipt ${data.number || ''} - ${data.from || ''}`;
-            await saveDocument('receipt', data, title);
+            const saved = await saveDocument('receipt', data, title);
+            if (!saved) return;
             await loadSavedDocs('receipt');
             generateReceipt();
         });
@@ -4795,9 +5002,19 @@ Management</textarea></div>
             updateDONetPayable();
             const data = getDoData();
             const title = `DO ${data.number || ''} - ${data.customer || ''}`;
-            await saveDocument('do', data, title);
+            const saved = await saveDocument('do', data, title);
+            if (!saved) return;
             await loadSavedDocs('do');
         });
+
+        // ================================================================
+        //  RESTRICTED USER LOGGING
+        //  Logs only: login success/failed, logout, save, modify, delete and print.
+        // ================================================================
+        function trackUserActivity() {
+            // Intentionally disabled: page opens, generate/preview, refresh and
+            // unrelated button clicks are not stored in User Logs.
+        }
 
         // ================================================================
         //  INIT
@@ -4840,6 +5057,26 @@ Management</textarea></div>
             generateLetter();
             updateStorageStatus();
 
+            // Restore the previous authenticated session after a page refresh.
+            // Role is refreshed from local/server user data, so disabled accounts are not restored.
+            const savedSession = StorageManager.getSessionLocal();
+            // sessionStorage survives refresh but is cleared when this browser tab/window is closed.
+            if (savedSession && !StorageManager.hasCurrentTabSession()) StorageManager.clearSessionLocal();
+            if (savedSession && savedSession.user && StorageManager.hasCurrentTabSession()) {
+                const savedUser = savedSession.user;
+                const localMatch = users.find(u =>
+                    (savedUser.id && String(u.id) === String(savedUser.id)) ||
+                    String(u.username || '').toLowerCase() === String(savedUser.username || '').toLowerCase()
+                );
+                const restoredUser = localMatch ? { ...savedUser, ...localMatch } : savedUser;
+                if (restoredUser && restoredUser.active !== false && restoredUser.username) {
+                    currentUser = restoredUser;
+                    enterDashboard({ restored: true, activePage: savedSession.activePage || '' });
+                } else {
+                    StorageManager.clearSessionLocal();
+                }
+            }
+
             // Server refresh is deliberately non-blocking.
             if (SheetAPI.isConfigured()) {
                 setTimeout(async () => {
@@ -4854,6 +5091,7 @@ Management</textarea></div>
                                 String(u.username || '').toLowerCase() === String(currentUser.username || '').toLowerCase());
                             if (fresh) {
                                 currentUser = { ...currentUser, ...fresh };
+                                StorageManager.saveSessionLocal(currentUser);
                                 applyTabPermissions();
                             }
                         }
