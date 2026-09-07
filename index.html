@@ -1770,7 +1770,7 @@
 
                 <!-- USER LOGS : ADMIN ONLY -->
                 <div id="userLogsPage" class="page-section">
-                    <div class="card-header"><div><h2>User Activity Logs</h2><p class="section-desc" style="margin:0;">Tracks login success/failed, logout, save, modify, delete and print actions. Visible only to Admin.</p></div><div class="flex flex-wrap gap-8"><button class="btn btn-outline" onclick="renderUserLogs()"><i class="fas fa-sync"></i> Refresh</button><button class="btn btn-outline" onclick="exportUserLogs()"><i class="fas fa-file-export"></i> Export</button><button class="btn btn-danger" onclick="clearUserLogs()"><i class="fas fa-trash"></i> Clear</button></div></div>
+                    <div class="card-header"><div><h2>User Activity Logs</h2><p class="section-desc" style="margin:0;">Tracks login success/failed, logout, save, modify, delete and print actions. Visible only to Admin.</p></div><div class="flex flex-wrap gap-8"><button class="btn btn-outline" onclick="renderUserLogs()"><i class="fas fa-sync"></i> Refresh</button><button class="btn btn-outline" onclick="exportUserLogs()"><i class="fas fa-file-export"></i> Export</button></div></div>
                     <div class="card">
                         <div class="do-form-grid" style="margin-bottom:16px;">
                             <div class="form-group"><label>Username</label><input id="logUserFilter" placeholder="Filter by username" oninput="renderUserLogs()"></div>
@@ -2284,11 +2284,9 @@ Management</textarea></div>
                         return u ? { success: true, user: u } : { success: false, error: 'Invalid credentials.' };
                     }
                     case 'getUserLogs':
-                        return { success: true, data: StorageManager.getUserLogsLocal() || [] };
-                    case 'saveUserLog': {
-                        const logs = StorageManager.getUserLogsLocal() || []; logs.unshift(payload.log); StorageManager.saveUserLogsLocal(logs); return { success: true };
-                    }
-                    case 'clearUserLogs': StorageManager.saveUserLogsLocal([]); return { success: true };
+                    case 'saveUserLog':
+                    case 'clearUserLogs':
+                        return { success: false, error: 'User logs are backend-only. Google Sheets connection is required.' };
                     case 'getUsers':
                         return { success: true, data: StorageManager.getUsersLocal() || [] };
                     case 'getDealers':
@@ -2926,29 +2924,120 @@ Management</textarea></div>
         }
 
         // ================================================================
-        //  USER ACTIVITY LOGS (ADMIN ONLY)
+        //  USER ACTIVITY LOGS (GOOGLE SHEETS BACKEND ONLY)
+        //  Logs are never saved in localStorage.
         // ================================================================
-        function getLocalLogs() { return StorageManager.getUserLogsLocal() || []; }
+        let backendUserLogs = [];
+
+        function normalizeBackendLog(log) {
+            return {
+                id: String(log?.id || ''),
+                timestamp: String(log?.timestamp || log?.Timestamp || ''),
+                username: String(log?.username || log?.Username || ''),
+                role: String(log?.role || log?.Role || ''),
+                action: String(log?.action || log?.Action || ''),
+                details: String(log?.details || log?.Details || '')
+            };
+        }
+
         async function addUserLog(action, details = '', logUser = null) {
             const actor = logUser || currentUser;
-            if (!actor) return;
-            const log = { id: 'log_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), timestamp: new Date().toISOString(), username: actor.username || '', role: actor.role || 'user', action, details };
-            const local = getLocalLogs(); local.unshift(log); StorageManager.saveUserLogsLocal(local);
-            if (SheetAPI.isConfigured()) SheetAPI.fetchFromSheet('saveUserLog', { log }).catch(() => {});
+            if (!actor) return { success: false };
+            const log = {
+                id: 'log_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                timestamp: new Date().toISOString(),
+                username: actor.username || '',
+                role: actor.role || 'user',
+                action: String(action || ''),
+                details: String(details || '')
+            };
+            const result = await SheetAPI.fetchFromSheet('saveUserLog', { log });
+            if (!result || result.success === false) {
+                console.error('User log was not saved to backend:', result?.error || 'Unknown error');
+                return { success: false, error: result?.error || 'Unable to save user log to backend.' };
+            }
+            return { success: true };
         }
+
+        async function fetchBackendUserLogs() {
+            const result = await SheetAPI.fetchFromSheet('getUserLogs', {});
+            if (!result || result.success === false) {
+                throw new Error(result?.error || 'Unable to load user logs from Google Sheets.');
+            }
+            backendUserLogs = Array.isArray(result.data) ? result.data.map(normalizeBackendLog) : [];
+            return backendUserLogs;
+        }
+
         async function renderUserLogs() {
             if (currentUser?.role !== 'admin') return;
-            let logs = getLocalLogs();
-            if (SheetAPI.isConfigured()) { const r = await SheetAPI.fetchFromSheet('getUserLogs', {}); if (r.success && Array.isArray(r.data) && r.data.length) { logs = r.data; StorageManager.saveUserLogsLocal(logs); } }
-            const userF = (document.getElementById('logUserFilter')?.value || '').toLowerCase();
-            const actionF = (document.getElementById('logActionFilter')?.value || '').toLowerCase();
-            const from = document.getElementById('logFromDate')?.value || ''; const to = document.getElementById('logToDate')?.value || '';
-            logs = logs.filter(l => { const d = String(l.timestamp || ''); const day = d.slice(0,10); return (!userF || String(l.username||'').toLowerCase().includes(userF)) && (!actionF || String(l.action||'').toLowerCase().includes(actionF)) && (!from || day >= from) && (!to || day <= to); });
-            const body = document.getElementById('userLogsTableBody'); if (!body) return;
-            body.innerHTML = logs.length ? logs.map(l => `<tr><td>${escapeHtml(new Date(l.timestamp).toLocaleString())}</td><td>${escapeHtml(l.username||'')}</td><td>${escapeHtml(l.role||'')}</td><td><span class="badge">${escapeHtml(l.action||'')}</span></td><td>${escapeHtml(l.details||'')}</td></tr>`).join('') : '<tr><td colspan="5" class="text-center">No user logs found.</td></tr>';
+            const body = document.getElementById('userLogsTableBody');
+            if (!body) return;
+
+            body.innerHTML = '<tr><td colspan="5" class="text-center">Loading user logs from Google Sheets...</td></tr>';
+            try {
+                let logs = await fetchBackendUserLogs();
+                const userF = (document.getElementById('logUserFilter')?.value || '').toLowerCase().trim();
+                const actionF = (document.getElementById('logActionFilter')?.value || '').toLowerCase().trim();
+                const from = document.getElementById('logFromDate')?.value || '';
+                const to = document.getElementById('logToDate')?.value || '';
+
+                logs = logs.filter(l => {
+                    const d = l.timestamp ? new Date(l.timestamp) : null;
+                    const day = d && !isNaN(d.getTime()) ? d.toISOString().slice(0, 10) : '';
+                    return (!userF || l.username.toLowerCase().includes(userF)) &&
+                           (!actionF || l.action.toLowerCase().includes(actionF)) &&
+                           (!from || day >= from) &&
+                           (!to || day <= to);
+                });
+
+                body.innerHTML = logs.length ? logs.map(l => {
+                    const dt = l.timestamp && !isNaN(new Date(l.timestamp).getTime())
+                        ? new Date(l.timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+                        : l.timestamp;
+                    return `<tr>
+                        <td>${escapeHtml(dt)}</td>
+                        <td>${escapeHtml(l.username)}</td>
+                        <td>${escapeHtml(l.role)}</td>
+                        <td><span class="badge">${escapeHtml(l.action)}</span></td>
+                        <td>${escapeHtml(l.details)}</td>
+                    </tr>`;
+                }).join('') : '<tr><td colspan="5" class="text-center">No user logs found in Google Sheets.</td></tr>';
+            } catch (error) {
+                console.error(error);
+                body.innerHTML = `<tr><td colspan="5" class="text-center">Unable to load backend logs: ${escapeHtml(error.message || 'Unknown error')}</td></tr>`;
+                showToast('User logs could not be loaded from Google Sheets.', 'error');
+            }
         }
-        async function clearUserLogs() { if (currentUser?.role !== 'admin' || !confirm('Clear all user logs?')) return; StorageManager.saveUserLogsLocal([]); if (SheetAPI.isConfigured()) await SheetAPI.fetchFromSheet('clearUserLogs', {}); renderUserLogs(); }
-        function exportUserLogs() { if (currentUser?.role !== 'admin') return; const logs=getLocalLogs(); const rows=['Date & Time,Username,Role,Action,Details', ...logs.map(l=>[l.timestamp,l.username,l.role,l.action,l.details].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','))]; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'})); a.download='user_logs.csv'; a.click(); URL.revokeObjectURL(a.href); }
+
+        async function clearUserLogs() {
+            if (currentUser?.role !== 'admin' || !confirm('Clear all user logs from Google Sheets?')) return;
+            const result = await SheetAPI.fetchFromSheet('clearUserLogs', {});
+            if (!result || result.success === false) {
+                showToast(result?.error || 'Unable to clear backend logs.', 'error');
+                return;
+            }
+            backendUserLogs = [];
+            await renderUserLogs();
+            showToast('All user logs cleared from Google Sheets.', 'success');
+        }
+
+        async function exportUserLogs() {
+            if (currentUser?.role !== 'admin') return;
+            try {
+                const logs = await fetchBackendUserLogs();
+                const rows = [
+                    'Date & Time,Username,Role,Action,Details',
+                    ...logs.map(l => [l.timestamp, l.username, l.role, l.action, l.details]
+                        .map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(','))
+                ];
+                const a = document.createElement('a');
+                const url = URL.createObjectURL(new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' }));
+                a.href = url; a.download = 'user_logs_backend.csv'; a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 500);
+            } catch (error) {
+                showToast(error.message || 'Unable to export backend logs.', 'error');
+            }
+        }
 
         // ================================================================
         //  AUTOMATIC SESSION TIMEOUT (5 MINUTES)
